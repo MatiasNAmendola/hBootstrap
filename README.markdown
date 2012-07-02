@@ -44,7 +44,7 @@ In case of an array, the array accepts 4 values, in the following order :
 3. help text 
 4. help style (ex: 'inline' or 'block' etc.)
 
-In case of a string, the string is the control group label text.
+In case of a string, the string is the control group label text (see String shortchut example)
 
 
 **Second value** is an array of values passed to the appropriate static helper method, defined by the key name.  
