@@ -59,7 +59,7 @@ The hForm helper is used in these examples.
 
 ### Readability
 
-You can specify string keys for values for readibility purposes. 
+You can specify string keys for readibility purposes. 
 
 	hBootForm::c(array(
 		'control' => array('label' => 'My label', 'class' => 'myClass'), 
