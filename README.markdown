@@ -1,6 +1,6 @@
 # hBootForm: Twitter Bootstrap Form Helper
 
-This is a PHP Helper Class, with static methods, to write easily twitter bootstrap forms.  
+This is a PHP Helper Class to write easily twitter bootstrap forms.  
 The hDom helper class is included to generate form elements.
 
 ##  Requirements
@@ -10,7 +10,7 @@ The hDom helper class is included to generate form elements.
 
 ##  Settings
 
-- Settings are set directly in hBootForm.php
+- Settings are set in hBootForm.php
 
 ##  Methods
 
@@ -18,7 +18,7 @@ The hDom helper class is included to generate form elements.
 
 Returns a control-group div element.  
 
-Example: 
+This
 
 	echo hBootForm::c(array(
 		'control' => array('My Label', 'class', 'help-text', 'block'), 
@@ -77,8 +77,8 @@ Shorter syntax with string as first array value.
 
 ### Multiple
 
-One label for multiple controls. 
-You **must** specify "multiple" as key name for the second array and add the method name as the first value.  
+One label for multiple controls.  
+You **must** specify "multiple" as key name for the second array and add the method name as the first value.   
 In this example, the "radio" method is called.
 
 	hBootForm::c(array('Group of Radios',

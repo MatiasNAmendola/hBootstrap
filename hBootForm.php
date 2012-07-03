@@ -46,7 +46,7 @@ class hBootForm
 
 		// single element
 		} else {
-			$values   =& self::normalizeArray($args[$type]);
+			$values   = self::normalizeArray($args[$type]);
 			$controls.= call_user_func_array(array(self::$dom_helper, $type), $values);
 			$for      = $values[0];
 
