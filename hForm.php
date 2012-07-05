@@ -164,18 +164,6 @@ class hForm
  	static function select($id, $value = null, $options = null, $class = null, $null_label = null,  $multiple = false) 
 	{	
 
-		function getData($array) {
-			$attr = null;
-			foreach ($array as $key => $value) {
-				if (preg_match('/^data_/', $key)) {
-					if ($value) {
-						$attr .= str_replace('data_', 'data-', $key).'="'.$value.'"';
-					}
-				}
-			}
-			return $attr;
-		}
-
 		$selected_str =  ' selected="selected"';
 
 		// so name & $value are Array
@@ -197,7 +185,7 @@ class hForm
 						
 			$o['value']     = isset($o['value']) ? $o['value'] : null;
 			$o['text']      = isset($o['text']) ? $o['text'] : null;
-			$o['data_attr'] = getData($o);
+			$o['data_attr'] = self::extractData($o);
 
 			// No Optgroup
 			if ( !$o['children'] ) {
@@ -227,7 +215,7 @@ class hForm
 					
 					$o_child['value']     = isset($o_child['value']) ? $o_child['value'] : null;
 					$o_child['text']      = isset($o_child['text']) ? $o_child['text'] : null;
-					$o_child['data_attr'] = getData($o_child);
+					$o_child['data_attr'] = self::extractData($o_child);
 
 					$dom.= '<option value="'.$o_child['value'].'" '.$o_child['data_attr'];
 										
@@ -255,4 +243,17 @@ class hForm
 		return $dom;
 	}
 
+
+	static private function extractData($array) {
+		$attr = null;
+		foreach ($array as $key => $value) {
+			if (preg_match('/^data_/', $key)) {
+				if ($value) {
+					$attr .= str_replace('data_', 'data-', $key).'="'.$value.'"';
+				}
+			}
+		}
+		return $attr;
+	}
+	
 }
