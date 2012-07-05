@@ -117,12 +117,22 @@ class hForm
 
 
 
-
-	static function numSelect($id, $value = null, $min, $max, $class = null, $label_for_null = null, $extra = null) 
+	/**
+	 * [numSelect description]
+	 * @param  [type] $id         [description]
+	 * @param  [type] $value      [description]
+	 * @param  [type] $min        [description]
+	 * @param  [type] $max        [description]
+	 * @param  [type] $class      [description]
+	 * @param  [type] $null_label [description]
+	 * @param  [type] $extra      [description]
+	 * @return [type]             [description]
+	 */
+	static function numSelect($id, $value = null, $min, $max, $class = null, $null_label = null, $extra = null) 
 	{
 		$dom = '<select id="'.$id.'" name="'.$id.'" class="'.$class.'" '.$extra.'>';
 		
-		if ($label_for_null) $dom.= '<option value="">'.$label_for_null.'</option>';
+		if ($null_label) $dom.= '<option value="">'.$null_label.'</option>';
 
 		for ($i=$min; $i<=$max; $i++) {
 
@@ -145,19 +155,28 @@ class hForm
 	 * @param  [type]  $value          [description]
 	 * @param  [type]  $options        [description]
 	 * @param  [type]  $class          [description]
-	 * @param  [type]  $label_for_null [description]
+	 * @param  [type]  $null_label 	   [description]
 	 * @param  boolean $optgroup       [description]
 	 * @param  boolean $multiple       [description]
 	 * @param  string  $placeholder    [description]
 	 * @return string                  [description]
 	 */
- 	static function select
- 	(
- 		$id, $value = null, $options = null, $class = null, $label_for_null = null, 
- 		$optgroup = false, $multiple = false,  $placeholder = ''
- 	) 
-	
+ 	static function select($id, $value = null, $options = null, $class = null, $null_label = null,  $multiple = false) 
 	{	
+
+		function getData($array) {
+			$attr = null;
+			foreach ($array as $key => $value) {
+				if (preg_match('/^data_/', $key)) {
+					if ($value) {
+						$attr .= str_replace('data_', 'data-', $key).'="'.$value.'"';
+					}
+				}
+			}
+			return $attr;
+		}
+
+		$selected_str =  ' selected="selected"';
 
 		// so name & $value are Array
 		if ( $multiple ) {
@@ -170,55 +189,59 @@ class hForm
 			$name          = $id;
 		}
 
-		$dom = '<select id="'.$id.'" name="'.$name.'" class="'.$class.'" placeholder="'.$placeholder.'"  '.$multiple_attr.'>';
+		$dom = '<select id="'.$id.'" name="'.$name.'" class="'.$class.'" '.$multiple_attr.'>';
 		
-		$dom.= (isset($label_for_null)) ? '<option value="">'.$label_for_null.'</option>' : null; 
+		$dom.= isset($null_label) ? '<option value="">'.$null_label.'</option>' : null; 
 
-		foreach ($options as $opt) {
+		foreach ($options as $o) {
 						
-			$i_value = (isset($opt['value'])) ? $opt['value'] : null;
-			$i_text  = (isset($opt['text'])) ? $opt['text'] : null;
-	
+			$o['value']     = isset($o['value']) ? $o['value'] : null;
+			$o['text']      = isset($o['text']) ? $o['text'] : null;
+			$o['data_attr'] = getData($o);
+
 			// No Optgroup
-			if ( !$optgroup ) {
-				$dom.= '<option value="'.$i_value.'"';
+			if ( !$o['children'] ) {
+				$dom.= '<option value="'.$o['value'].'" '.$o['data_attr'];
+				
 				if ( $multiple ) {
 					// $value is an Array
 					$valueLength = sizeof($value);
 					for ($v=0; $v<$valueLength; $v++) {
-						if ( $value[$v] == $i_value ) $dom.= ' selected="selected"';
+						if ( $value[$v] == $o['value'] ) $dom.= $selected_str;
 					}
 
 				} else {
-					if ( $value == $i_value ) $dom.= ' selected="selected"';
+					if ( $value == $o['value'] ) $dom.= $selected_str;
 				}
+
 				$dom.= '>';
-				$dom.= $i_text;
+				$dom.= $o['text'];
 				$dom.= '</option>';
 			
 			// Optgroup			
 			} else { 
 			
-				$dom.= '<optgroup label="'.$opt['text'].'">';
+				$dom.= '<optgroup label="'.$o['text'].'">';
 				
-				foreach ($opt['options'] as $opt_child) {
+				foreach ($o['children'] as $o_child) {
 					
-					$j_value = (isset($opt_child['value'])) ? $opt_child['value'] : null;
-					$j_text  = (isset($opt_child['text'])) ? $opt_child['text'] : null;
+					$o_child['value']     = isset($o_child['value']) ? $o_child['value'] : null;
+					$o_child['text']      = isset($o_child['text']) ? $o_child['text'] : null;
+					$o_child['data_attr'] = getData($o_child);
 
-					$dom.= '<option value="'.$j_value.'"';
+					$dom.= '<option value="'.$o_child['value'].'" '.$o_child['data_attr'];
 										
 					if ( $multiple ) {
 						for ($v=0; $length = sizeof($value), $v<$length; $v++) {
-							if ( $value[$v] == $j_value ) $dom.= ' selected="selected"';
+							if ( $value[$v] == $o_child['value'] ) $dom.= $selected_str;
 						}
 
 					} else {
-						if ( $value == $j_value ) $dom.= ' selected="selected"';
+						if ( $value == $o_child['value'] ) $dom.= $selected_str;
 					}
 					
 					$dom.= '>';
-					$dom.= $j_text;
+					$dom.= $o_child['text'];
 					$dom.= '</option>';
 				}
 				
