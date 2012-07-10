@@ -1,12 +1,11 @@
 # hBootForm: Twitter Bootstrap Form Helper
 
-This is a PHP Helper Class to write easily twitter bootstrap forms.  
-The hDom helper class is included to generate form elements.
+A PHP Helper Class to write easily twitter bootstrap forms.  
 
 ##  Requirements
 
 - Twitter Bootstrap CSS
-- A Form Helper with static methods (the **hForm** Class is provided).
+- A Form Helper with static methods (hForm Class is provided).
 
 ##  Settings
 
@@ -37,19 +36,19 @@ will output :
 
 **First value** of $args can be either an array (with  key or not) or a string.  
 
-In case of an array, the array accepts 4 values, in the following order :  
+The array accepts 4 values, in the following order :  
 
 1. control group label text
 2. control group class (ex: 'success', 'error' ... )
 3. help text 
 4. help style (ex: 'inline' or 'block' etc.)
 
-In case of a string, the string is the control group label text (see String shortchut example)
+The string is the control group label text (see String shortchut example)
 
 
 **Second value** is an array of values passed to the appropriate static helper method, defined by the key name.  
 In the example above, the "input" method is called.  
-The values order must be the same as the function arguments order.
+Obviously, the values order must be the same as the function arguments order.
 
 
 ## More Examples
