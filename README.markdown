@@ -104,5 +104,3 @@ In this example, the "radio" method is called.
 ##  Todo
 
 - hForm improvements and comments
-- Append + Prepend ?
-- Actions + Buttons ??

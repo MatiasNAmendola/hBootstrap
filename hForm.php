@@ -10,18 +10,18 @@ class hForm
 	static protected function myEncode($string)
 	{
 		// your htmlentities function
-		return fHTML::encode($string);
+		return e($string);
 	}
 
-
+	
 	/**
 	 * Label 
 	 * 
-	 * @param  [type] $id    [description]
+	 * @param  [type] $id	[description]
 	 * @param  [type] $text  [description]
 	 * @param  [type] $for   [description]
 	 * @param  [type] $class [description]
-	 * @return string        html content
+	 * @return string		html content
 	 */
 	static function label($id = null, $text, $for = null, $class = null)
 	{
@@ -32,14 +32,14 @@ class hForm
 	/**
 	 * Input
 	 * 
-	 * @param  [type]  $id          [description]
-	 * @param  [type]  $value       [description]
-	 * @param  [type]  $class       [description]
-	 * @param  boolean $encode      [description]
+	 * @param  [type]  $id		  [description]
+	 * @param  [type]  $value	   [description]
+	 * @param  [type]  $class	   [description]
+	 * @param  boolean $encode	  [description]
 	 * @param  string  $placeholder [description]
-	 * @param  string  $type        [description]
-	 * @param  [type]  $extra       [description]
-	 * @return string               [description]
+	 * @param  string  $type		[description]
+	 * @param  [type]  $extra	   [description]
+	 * @return string			   [description]
 	 */
 	static function input($id, $value = null, $class = null, $encode = true, $placeholder = '', $type = 'text',  $extra = null) 
 	{ 
@@ -51,19 +51,19 @@ class hForm
 	/**
 	 * Returns a textarea
 	 * 
-	 * @param  [type]  $id          [description]
-	 * @param  [type]  $value       [description]
-	 * @param  [type]  $class       [description]
-	 * @param  [type]  $rows        [description]
-	 * @param  boolean $encode      [description]
+	 * @param  [type]  $id		  [description]
+	 * @param  [type]  $value	   [description]
+	 * @param  [type]  $class	   [description]
+	 * @param  [type]  $rows		[description]
+	 * @param  boolean $encode	  [description]
 	 * @param  string  $placeholder [description]
-	 * @param  [type]  $extra       [description]
-	 * @return string               [description]
+	 * @param  [type]  $extra	   [description]
+	 * @return string			   [description]
 	 */
 	static function textarea($id, $value = null, $class = null, $rows = null, $encode = true, $placeholder = '', $extra = null) 
 	{ 
 		$val = ($encode === true) ? self::myEncode($value) : $value;
-		$dom.= '<textarea id="'.$id.'" name="'.$id.'" class="'.$class.'" rows="'.$rows.'" placeholder="'.$placeholder.'" '.$extra.'>';
+		$dom = '<textarea id="'.$id.'" name="'.$id.'" class="'.$class.'" rows="'.$rows.'" placeholder="'.$placeholder.'" '.$extra.'>';
 		$dom.= $val;
 		$dom.= '</textarea>';
 		return $dom;
@@ -73,16 +73,16 @@ class hForm
 	/**
 	 * Returns a checkbox within a label
 	 * 
-	 * @param  [type]  $id          [description]
-	 * @param  [type]  $value       [description]
+	 * @param  [type]  $id		  [description]
+	 * @param  [type]  $value	   [description]
 	 * @param  [type]  $label_text  [description]
 	 * @param  [type]  $label_class [description]
-	 * @param  boolean $checked     [description]
-	 * @return string               [description]
+	 * @param  boolean $checked	 [description]
+	 * @return string			   [description]
 	 */
-	static function checkbox($id = null, $value, $label_text, $label_class = null, $checked = false) 
+	static function checkbox($id = null, $checked = false, $label_text, $label_class = null, $value = null) 
 	{ 
-		$checked_attr = ($checked) ? 'checked="checked"' : null;
+		$checked_attr = (hUtils::pgbool($checked)) ? 'checked="checked"' : null;
 		$dom = '
 			<label class="checkbox '.$label_class.'">
 				<input id="'.$id.'" name="'.$id.'" type="checkbox" value="'.$value.'" '.$checked_attr.'>
@@ -95,13 +95,13 @@ class hForm
 
 	/**
 	 * [Returns a radio within a label
-	 * @param  [type]  $id          [description]
-	 * @param  [type]  $name        [description]
-	 * @param  [type]  $value       [description]
+	 * @param  [type]  $id		  [description]
+	 * @param  [type]  $name		[description]
+	 * @param  [type]  $value	   [description]
 	 * @param  [type]  $label_text  [description]
 	 * @param  [type]  $label_class [description]
-	 * @param  boolean $checked     [description]
-	 * @return string               [description]
+	 * @param  boolean $checked	 [description]
+	 * @return string			   [description]
 	 */
 	static function radio($id = null, $name, $value, $label_text, $label_class = null, $checked = false) 
 	{ 
@@ -119,14 +119,14 @@ class hForm
 
 	/**
 	 * [numSelect description]
-	 * @param  [type] $id         [description]
-	 * @param  [type] $value      [description]
-	 * @param  [type] $min        [description]
-	 * @param  [type] $max        [description]
-	 * @param  [type] $class      [description]
+	 * @param  [type] $id		 [description]
+	 * @param  [type] $value	  [description]
+	 * @param  [type] $min		[description]
+	 * @param  [type] $max		[description]
+	 * @param  [type] $class	  [description]
 	 * @param  [type] $null_label [description]
-	 * @param  [type] $extra      [description]
-	 * @return [type]             [description]
+	 * @param  [type] $extra	  [description]
+	 * @return [type]			 [description]
 	 */
 	static function numSelect($id, $value = null, $min, $max, $class = null, $null_label = null, $extra = null) 
 	{
@@ -151,17 +151,17 @@ class hForm
 	/**
 	 * [select description]
 	 * 
-	 * @param  [type]  $id             [description]
-	 * @param  [type]  $value          [description]
-	 * @param  [type]  $options        [description]
-	 * @param  [type]  $class          [description]
+	 * @param  [type]  $id			 [description]
+	 * @param  [type]  $value		  [description]
+	 * @param  [type]  $options		[description]
+	 * @param  [type]  $class		  [description]
 	 * @param  [type]  $null_label 	   [description]
-	 * @param  boolean $optgroup       [description]
-	 * @param  boolean $multiple       [description]
-	 * @param  string  $placeholder    [description]
-	 * @return string                  [description]
+	 * @param  boolean $optgroup	   [description]
+	 * @param  boolean $multiple	   [description]
+	 * @param  string  $placeholder	[description]
+	 * @return string				  [description]
 	 */
- 	static function select($id, $value = null, $options = null, $class = null, $null_label = null,  $multiple = false) 
+ 	static function select($id, $value = null, Array $options = null, $class = null, $empty = true,  $multiple = false) 
 	{	
 
 		$selected_str =  ' selected="selected"';
@@ -174,21 +174,25 @@ class hForm
 
 		} else {
 			$multiple_attr = '';
-			$name          = $id;
+			$name		  = $id;
 		}
 
 		$dom = '<select id="'.$id.'" name="'.$name.'" class="'.$class.'" '.$multiple_attr.'>';
 		
-		$dom.= isset($null_label) ? '<option value="">'.$null_label.'</option>' : null; 
+		if ($empty) {
+			$dom.= '<option value="">';
+			$dom.= is_string($empty) ? $empty : null; 
+			$dom.= '</option>';
+		}
 
 		foreach ($options as $o) {
 						
-			$o['value']     = isset($o['value']) ? $o['value'] : null;
-			$o['text']      = isset($o['text']) ? $o['text'] : null;
+			$o['value']	 = isset($o['value']) ? $o['value'] : null;
+			$o['text']	  = isset($o['text']) ? $o['text'] : null;
 			$o['data_attr'] = self::extractData($o);
 
 			// No Optgroup
-			if ( !$o['children'] ) {
+			if ( !isset($o['children']) ) {
 				$dom.= '<option value="'.$o['value'].'" '.$o['data_attr'];
 				
 				if ( $multiple ) {
@@ -213,8 +217,8 @@ class hForm
 				
 				foreach ($o['children'] as $o_child) {
 					
-					$o_child['value']     = isset($o_child['value']) ? $o_child['value'] : null;
-					$o_child['text']      = isset($o_child['text']) ? $o_child['text'] : null;
+					$o_child['value']	 = isset($o_child['value']) ? $o_child['value'] : null;
+					$o_child['text']	  = isset($o_child['text']) ? $o_child['text'] : null;
 					$o_child['data_attr'] = self::extractData($o_child);
 
 					$dom.= '<option value="'.$o_child['value'].'" '.$o_child['data_attr'];
@@ -256,4 +260,17 @@ class hForm
 		return $attr;
 	}
 	
+
+	static function itemText(Array $options, $value)
+	{	
+		foreach ($options as $o) {		
+			if ($o['value'] == $value) {
+				return $o['text'];
+				break; 
+			}		
+		}
+
+	}
+
+
 }
