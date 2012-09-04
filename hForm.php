@@ -80,7 +80,7 @@ class hForm
 	 * @param  boolean $checked	 [description]
 	 * @return string			   [description]
 	 */
-	static function checkbox($id = null, $checked = false, $label_text, $label_class = null, $value = null) 
+	static function checkbox($id = null, $checked = false, $label_text, $label_class = null, $value = true) 
 	{ 
 		$checked_attr = (hUtils::pgbool($checked)) ? 'checked="checked"' : null;
 		$dom = '
