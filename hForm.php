@@ -5,6 +5,7 @@
  * Visit {@link http://github.com/younes0/hBootForm/} for more information.
  *
  * Last Modified: 09/15/2012
+ * TODO: phpdoc
  * 
  *  @author	 	Younès El Biache <younes.elbiache@gmail.com>
  *  @license 	http://opensource.org/licenses/bsd-license.php  New BSD License
@@ -57,7 +58,7 @@ class hForm
 	/**
 	 * Returns a textarea
 	 */
-	static public function textarea($id, $value = null, $class = null, $encode = true, $extras = null) 
+	static public function textarea($id, $value = null, $class = null, $encode = true, Array $extras = array()) 
 	{ 
 		$val = ($encode === true) ? self::encode($value) : $value;
 		$dom = '<textarea id="'.$id.'" name="'.$id.'" class="'.$class.'" '.static::add_extras($dom, $extras).'>';
@@ -160,7 +161,7 @@ class hForm
 	 */
 	static public function option(Array $option = array(), $value)
 	{
-		$selected = ' selected="selected" ';
+		$selected_str = ' selected="selected" ';
 		
 		$option['value'] = isset($option['value']) ? $option['value'] : null;
 		$option['text']  = isset($option['text']) ? $option['text'] : null;
@@ -176,14 +177,14 @@ class hForm
 			$length = sizeof($value);
 			for ($i=0; $i<$length; $i++) {
 				if ($value[$i] == $option['value'] ) {
-					$dom.= $selected;
+					$dom.= $selected_str;
 				}
 			}
 
 		// not multiple
 		} else {
 			if ($value == $option['value']) {
-				$dom.= $selected;
+				$dom.= $selected_str;
 			}
 		}
 
@@ -199,7 +200,7 @@ class hForm
 	/**
 	 * Returns a Numeric select
 	 */
-	static public function num_select($id, $value = null, $min, $max, $class = null, $allow_null = true, $extras = null) 
+	static public function num_select($id, $value = null, $min, $max, $class = null, $allow_null = true, Array $extras = array()) 
 	{
 		$dom = '<select id="'.$id.'" name="'.$id.'" class="'.$class.'" '.static::add_extras($dom, $extras).'>';
 		
@@ -219,6 +220,9 @@ class hForm
 
 
  
+ 	/**
+ 	 * Add extra attributes
+ 	 */
 	static private function add_extras($dom, Array $extras = array())
 	{
 		foreach ($extras as $extra => $value) {
