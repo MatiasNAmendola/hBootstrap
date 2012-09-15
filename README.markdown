@@ -12,9 +12,7 @@ A PHP Helper Class to write easily twitter bootstrap forms & navs.
 
 - Settings are set in hBootstrap.php (to change)
 
-##  Methods
-
-### hBootstrap::form(Array $args)
+## Method hBootstrap::form(Array $args)
 
 Returns a control-group div element.  
 
@@ -52,11 +50,11 @@ In the example above, the "input" method is called.
 Obviously, the values order must be the same as the function arguments order.
 
 
-#### More Examples
+### More Examples
 
 The hForm helper is used in these examples.  
 
-#### Readability
+### Readability
 
 You can specify string keys for readibility purposes. 
 
@@ -65,7 +63,7 @@ You can specify string keys for readibility purposes.
 		'input'   => array( 'id' => 'description', 'This is an input')
 	));
 
-#### String shortchut
+### String shortchut
 
 Shorter syntax with string as first array value.
 
@@ -74,7 +72,7 @@ Shorter syntax with string as first array value.
 	));
 
 
-#### Multiple
+### Multiple
 
 One label for multiple controls.  
 You **must** specify "multiple" as key name for the second array and add the method name as the first value.   
@@ -88,7 +86,7 @@ In this example, the "radio" method is called.
 	));	
 
 
-#### PHP 5.4 short array syntax
+### PHP 5.4 short array syntax
 
 	hBootstrap::form([
 		'control' => ['My label', 'help'], 
@@ -96,7 +94,7 @@ In this example, the "radio" method is called.
 	]);
 
 
-### hBootstrap::nav($nav_class, Array $items, $url_filter, $url_active)
+## Method hBootstrap::nav($nav_class, Array $items, $url_filter, $url_active)
 
 Returns a nav list. 
 
@@ -147,7 +145,7 @@ will output :
 		</li>
 	</ul>
 
-#### Params  
+### Params  
 
 $nav_class  : UL class ('nav', 'nav-tabs' etc.)  
 $items      : Set of links and their text  
