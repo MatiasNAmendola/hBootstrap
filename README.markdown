@@ -9,7 +9,7 @@ A PHP Helper Class to write easily twitter bootstrap forms.
 
 ##  Settings
 
-- Settings are set in hBootForm.php
+- Settings are set in hBootForm.php (to change)
 
 ##  Methods
 
