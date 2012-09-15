@@ -2,7 +2,7 @@
 /**
  * hForm : Form Helper
  *
- * Visit {@link http://github.com/younes0/hBootForm/} for more information.
+ * Visit {@link http://github.com/younes0/hBootstrap/} for more information.
  *
  * Last Modified: 09/15/2012
  * TODO: phpdoc
@@ -33,9 +33,9 @@ class hForm
 	/**
 	 * Label 
 	 */
-	static public function label($id = null, $text, $for = null, $class = null, Array $extras = array())
+	public static function label($id = null, $text, $for = null, $class = null, Array $extras = array())
 	{
-		$dom = '<label id="'.$id.'" for="'.$for.'" class="'.$class.'" '.static::add_extras($dom, $extras).'>';
+		$dom = '<label id="'.$id.'" for="'.$for.'" class="'.$class.'" '.static::add_extras($extras).'>';
 		$dom.= $text;
 		$dom.= '</label>';
 		return $dom;
@@ -45,10 +45,10 @@ class hForm
 	/**
 	 * Input
 	 */
-	static public function input($id, $value = null, $class = null, $encode = true, $type = 'text', Array $extras = array()) 
+	public static function input($id, $value = null, $class = null, $encode = true, $type = 'text', Array $extras = array()) 
 	{ 
-		$val = ($encode === true) ? self::encode($value) : $value;
-		$dom = '<input id="'.$id.'" name="'.$id.'" type="'.$type.'" value="'.$val.'" class="'.$class.'" '.static::add_extras($dom, $extras).'>';
+		$val = ($encode === true) ? static::encode($value) : $value;
+		$dom = '<input id="'.$id.'" name="'.$id.'" type="'.$type.'" value="'.$val.'" class="'.$class.'" '.static::add_extras($extras).'>';
 		$dom.= $val;
 		$dom.= '</input>';
 		return $dom;
@@ -58,10 +58,10 @@ class hForm
 	/**
 	 * Returns a textarea
 	 */
-	static public function textarea($id, $value = null, $class = null, $encode = true, Array $extras = array()) 
+	public static function textarea($id, $value = null, $class = null, $encode = true, Array $extras = array()) 
 	{ 
-		$val = ($encode === true) ? self::encode($value) : $value;
-		$dom = '<textarea id="'.$id.'" name="'.$id.'" class="'.$class.'" '.static::add_extras($dom, $extras).'>';
+		$val = ($encode === true) ? static::encode($value) : $value;
+		$dom = '<textarea id="'.$id.'" name="'.$id.'" class="'.$class.'" '.static::add_extras($extras).'>';
 		$dom.= $val;
 		$dom.= '</textarea>';
 		return $dom;
@@ -71,7 +71,7 @@ class hForm
 	/**
 	 * Returns a checkbox within a label
 	 */
-	static public function checkbox($id = null, $value = true, $checked = false, $label_text, $label_class = null) 
+	public static function checkbox($id = null, $value = true, $checked = false, $label_text, $label_class = null) 
 	{ 
 		$checked_str = ($checked) ? 'checked="checked"' : null;
 		$dom = '
@@ -87,7 +87,7 @@ class hForm
 	/**
 	 * Returns a radio within a label
 	 */
-	static public function radio($id = null, $name, $value, $checked = false, $label_text, $label_class = null) 
+	public static function radio($id = null, $name, $value, $checked = false, $label_text, $label_class = null) 
 	{ 
 		$checked_str = ($checked) ? 'checked="checked"' : null;
 		$dom = '
@@ -117,16 +117,23 @@ class hForm
 	 * 	   )
 	 * 	);
 	 */
- 	static public function select($id, $value = null, $options = array(), $class = null, $allow_null = true, $multiple = false, Array $extras = array()) 
+ 	public static function select($id, $value = null, $options = array(), $class = null, $allow_null = true, $multiple = false, Array $extras = array()) 
 	{	
 
 		$selected_str =  ' selected="selected"';
 
 		// is multiple ?
-		$name = ($multiple) ? (preg_replace('/(?:\d*)/', '', $id)).'[]' : $id;
-		$multiple_str = ($multiple) ? $id : null;
+		if ($multiple) {
+			$multiple_str = 'multiple';
+			$name = preg_replace('/(?:\d*)/', '', $id);
+			$name.= '[]';
 
-		$dom = '<select id="'.$id.'" name="'.$name.'" class="'.$class.'" '.$multiple_str.' '.static::add_extras($dom, $extras).'>';
+		} else {
+			$multiple_str = null;
+			$name         = $id;
+		}
+
+		$dom = '<select id="'.$id.'" name="'.$name.'" class="'.$class.'" '.$multiple_str.' '.static::add_extras($extras).'>';
 
 		if ($allow_null) {
 			$null_text = is_string($allow_null) ? $allow_null : null; 
@@ -137,14 +144,14 @@ class hForm
 
 			// no optgroup
 			if ( !isset($opt['children']) ) {
-				$dom.= static::option($opt, $value);
+				$dom.= static::option($opt, $value, $multiple);
 				
 			// optgroup			
 			} else { 
 				$dom.= '<optgroup label="'.$opt['text'].'">';
 				
 				foreach ($opt['children'] as $opt_child) {
-					$dom.= static::option($opt_child, $value);
+					$dom.= static::option($opt_child, $value, $multiple);
 				}
 				$dom.= '</optgroup>';
 			}
@@ -159,14 +166,14 @@ class hForm
 	/**
 	 * Returns an option
 	 */
-	static public function option(Array $option = array(), $value)
+	public static function option(Array $option = array(), $value = null, $multiple = false)
 	{
 		$selected_str = ' selected="selected" ';
 		
 		$option['value'] = isset($option['value']) ? $option['value'] : null;
 		$option['text']  = isset($option['text']) ? $option['text'] : null;
 
-		$dom.= '<option value="'.$option['value'].'" ';
+		$dom = '<option value="'.$option['value'].'" ';
 		
 		if (isset($option['extras']) and is_array($option['extras'])) {
 			$dom.= static::add_extras($dom, $option['extras']);
@@ -200,9 +207,9 @@ class hForm
 	/**
 	 * Returns a Numeric select
 	 */
-	static public function num_select($id, $value = null, $min, $max, $class = null, $allow_null = true, Array $extras = array()) 
+	public static function num_select($id, $value = null, $min, $max, $class = null, $allow_null = true, Array $extras = array()) 
 	{
-		$dom = '<select id="'.$id.'" name="'.$id.'" class="'.$class.'" '.static::add_extras($dom, $extras).'>';
+		$dom = '<select id="'.$id.'" name="'.$id.'" class="'.$class.'" '.static::add_extras($extras).'>';
 		
 		if ($allow_null) {
 			$null_text = is_string($allow_null) ? $allow_null : null; 
@@ -223,8 +230,9 @@ class hForm
  	/**
  	 * Add extra attributes
  	 */
-	static private function add_extras($dom, Array $extras = array())
+	private static function add_extras(Array $extras = array())
 	{
+		$dom = null;
 		foreach ($extras as $extra => $value) {
 			$dom.= $extra.'="'.$value.'" ';
 		}

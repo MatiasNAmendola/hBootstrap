@@ -1,25 +1,26 @@
-# hBootForm: Twitter Bootstrap Form Helper
+# hBootstrap: Twitter Bootstrap Helper (Form & Nav)
 
-A PHP Helper Class to write easily twitter bootstrap forms.  
+A PHP Helper Class to write easily twitter bootstrap forms & navs.  
 
 ##  Requirements
 
 - Twitter Bootstrap CSS
 - A Form Helper with static methods (hForm Class is provided).
+- PHP 5.3+
 
 ##  Settings
 
-- Settings are set in hBootForm.php (to change)
+- Settings are set in hBootstrap.php (to change)
 
 ##  Methods
 
-### hBootForm::c(array $args)
+### hBootstrap::form(Array $args)
 
 Returns a control-group div element.  
 
 This
 
-	echo hBootForm::c(array(
+	echo hBootstrap::form(array(
 		'control' => array('My Label', 'class', 'help-text', 'block'), 
 		'input'   => array('description', 'This is an input')
 	));
@@ -51,36 +52,35 @@ In the example above, the "input" method is called.
 Obviously, the values order must be the same as the function arguments order.
 
 
-## More Examples
+#### More Examples
 
 The hForm helper is used in these examples.  
 
-
-### Readability
+#### Readability
 
 You can specify string keys for readibility purposes. 
 
-	hBootForm::c(array(
+	hBootstrap::form(array(
 		'control' => array('label' => 'My label', 'class' => 'myClass'), 
 		'input'   => array( 'id' => 'description', 'This is an input')
 	));
 
-### String shortchut
+#### String shortchut
 
 Shorter syntax with string as first array value.
 
-	hBootForm::c(array('My label',	
+	hBootstrap::form(array('My label',	
 		'input' => array('description', 'This is an input')
 	));
 
 
-### Multiple
+#### Multiple
 
 One label for multiple controls.  
 You **must** specify "multiple" as key name for the second array and add the method name as the first value.   
 In this example, the "radio" method is called.
 
-	hBootForm::c(array('Group of Radios',
+	hBootstrap::form(array('Group of Radios',
 		'multiple' => array(
 			array('radio', 'radio1', 'radioGroup', 1, 'label_text' => 'First Radio',  'inline', false),
 			array('radio', 'radio2', 'radioGroup', 2, 'label_text' => 'Second Radio', 'inline', true)
@@ -88,12 +88,71 @@ In this example, the "radio" method is called.
 	));	
 
 
-### PHP 5.4 short array syntax
+#### PHP 5.4 short array syntax
 
-	hBootForm::c([
+	hBootstrap::form([
 		'control' => ['My label', 'help'], 
 		'input'   => ['description', 'This is an input'])
 	]);
+
+
+### hBootstrap::nav($nav_class, Array $items, $url_filter, $url_active)
+
+Returns a nav list. 
+
+This
+
+	$current = hUtils::getCurrentUrl();
+
+	echo hBootstrap::nav(
+		'nav-list', 
+		
+		array(
+			'Display', // header
+			array('All', hUtils::removeFromQueryString($current, 'sortby')), // link
+			array('Unread', hUtils::replaceInQueryString($current, 'sortby', 'unread')),  // link
+			
+			'Order by',
+			array('Subject', hUtils::removeFromQueryString($current, 'orderby')),
+			array('Timestamp', hUtils::replaceInQueryString($current, 'orderby', 'timestamp')),
+		), 
+
+		$url_filter = function($url) = null,
+		
+		$url_active = function($url) {
+			// ignore 'page' query string
+			return ($url == hUtils::removeFromQueryString($_SERVER['REQUEST_URI'], 'page'));
+		}
+	);
+
+will output :
+
+	// assuming that we display unread messages order by subject 
+
+	<ul class="nav nav-list">
+		<li class="nav-header">Display</li>
+		<li class="active">
+			<a href="/app/messages?">All</a>
+		</li>
+		<li class="active">
+			<a href="/app/messages?sortby=unread">Unread</a>
+		</li>
+
+		<li class="nav-header">Order by</li>
+		<li class="active">
+			<a href="/app/messages?sortby=unread">Subject</a>
+		</li>
+		<li>
+			<a href="/app/messages?sortby=unread&orderby=timestamp">Timestamp</a>
+		</li>
+	</ul>
+
+#### Params  
+
+$nav_class  : UL class ('nav', 'nav-tabs' etc.)  
+$items      : Set of links and their text  
+$url_filter : Link filter Closure function  
+$url_active : Closure function that determines if the link is active or not   
 
 
 
