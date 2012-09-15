@@ -48,9 +48,7 @@ class hForm
 	public static function input($id, $value = null, $class = null, $encode = true, $type = 'text', Array $extras = array()) 
 	{ 
 		$val = ($encode === true) ? static::encode($value) : $value;
-		$dom = '<input id="'.$id.'" name="'.$id.'" type="'.$type.'" value="'.$val.'" class="'.$class.'" '.static::add_extras($extras).'>';
-		$dom.= $val;
-		$dom.= '</input>';
+		$dom = '<input id="'.$id.'" name="'.$id.'" type="'.$type.'" value="'.$val.'" class="'.$class.'" '.static::add_extras($extras).' />';
 		return $dom;
 	}
 
@@ -76,7 +74,7 @@ class hForm
 		$checked_str = ($checked) ? 'checked="checked"' : null;
 		$dom = '
 			<label class="checkbox '.$label_class.'">
-				<input id="'.$id.'" name="'.$id.'" type="checkbox" value="'.$value.'" '.$checked_str.'>
+				<input id="'.$id.'" name="'.$id.'" type="checkbox" value="'.$value.'" '.$checked_str.' />
 				'.$label_text.'
 			</label>
 		';
@@ -92,7 +90,7 @@ class hForm
 		$checked_str = ($checked) ? 'checked="checked"' : null;
 		$dom = '
 			<label class="radio '.$label_class.'">
-				<input id="'.$id.'" name="'.$name.'" type="radio" value="'.$value.'" '.$checked_str.'>
+				<input id="'.$id.'" name="'.$name.'" type="radio" value="'.$value.'" '.$checked_str.' />
 				'.$label_text.'
 			</label>
 		';

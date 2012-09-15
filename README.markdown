@@ -54,7 +54,7 @@ Obviously, the values order must be the same as the function arguments order.
 
 The hForm helper is used in these examples.  
 
-### Readability
+#### Readability
 
 You can specify string keys for readibility purposes. 
 
@@ -63,7 +63,7 @@ You can specify string keys for readibility purposes.
 		'input'   => array( 'id' => 'description', 'This is an input')
 	));
 
-### String shortchut
+#### String shortchut
 
 Shorter syntax with string as first array value.
 
@@ -72,7 +72,7 @@ Shorter syntax with string as first array value.
 	));
 
 
-### Multiple
+#### Multiple
 
 One label for multiple controls.  
 You **must** specify "multiple" as key name for the second array and add the method name as the first value.   
@@ -86,7 +86,7 @@ In this example, the "radio" method is called.
 	));	
 
 
-### PHP 5.4 short array syntax
+#### PHP 5.4 short array syntax
 
 	hBootstrap::form([
 		'control' => ['My label', 'help'], 
@@ -103,9 +103,9 @@ This
 	$current = hUtils::getCurrentUrl();
 
 	echo hBootstrap::nav(
-		'nav-list', 
+		$nav_class = 'nav-list', 
 		
-		array(
+		$items = array(
 			'Display', // header
 			array('All', hUtils::removeFromQueryString($current, 'sortby')), // link
 			array('Unread', hUtils::replaceInQueryString($current, 'sortby', 'unread')),  // link
