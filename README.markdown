@@ -96,11 +96,7 @@ In this example, the "radio" method is called.
 	]);
 
 
-### String shortchut + PHP 5.4 short array syntax
-
-	hBootForm::c(['My label', 'input' => ['description', 'This is a input'] ]);
-
 
 ##  Todo
 
-- hForm improvements and comments
+- hForm phpdoc
